@@ -1,133 +1,91 @@
-# Use Xft?
-use_xft yes
-xftfont DejaVu Sans:size=10
-xftalpha 1.0
-text_buffer_size 2048
+# COMPIZ SETTINGS:
+# own_window yes
+# own_window_type override
+# own_window_transparent yes
+# own_window_title trans777
+# own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
-# Update interval in seconds
-update_interval 1
-
-# This is the number of times Conky will update before quitting.
-# Set to zero to run forever.
-total_run_times 0
-
-# Create own window instead of using desktop (required in nautilus)
+# METACITY SETTINGS
 own_window yes
-own_window_transparent yes
 own_window_type override
-#own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
-
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+ 
 # Use double buffering (reduces flicker, may not work for everyone)
 double_buffer yes
+ 
+# fiddle with window
+use_spacer right
 
+# Use Xft?
+use_xft yes
+xftfont DejaVu Sans Mono:size=10
+xftalpha 0.8
+text_buffer_size 2048
+ 
+# Update interval in seconds
+update_interval 1.6
+ 
 # Minimum size of text area
-minimum_size 160 0
-#maximum_width 200
-
+# minimum_size 250 5
+minimum_width 300
+maximum_width 400
+ 
 # Draw shades?
 draw_shades no
-
-# Draw outlines?
-draw_outline no
-
-# Draw borders around text
+ 
+# Text stuff
+draw_outline no # amplifies text if yes
 draw_borders no
-
+uppercase no # set to yes if you want all text to be in uppercase
+ 
 # Stippled borders?
-stippled_borders 0
-
+stippled_borders 3
+ 
 # border margins
-border_margin 5
-
+border_margin 9
+ 
 # border width
-border_width 1
-
-# Default colors and also border colors
-default_color white
-#default_shade_color black
-#default_outline_color white
-own_window_colour white
-
+border_width 10
+ 
+# Default colors and also border colors, grey90 == #e5e5e5
+default_color grey90
+ 
+own_window_colour brown
+ 
 # Text alignment, other possible values are commented
 #alignment top_left
 alignment top_right
 #alignment bottom_left
 #alignment bottom_right
-
+ 
 # Gap between borders of screen and text
-# same thing as passing -x at command line
-gap_x 15
-gap_y 20
-
-# Subtract file system buffers from used memory?
-no_buffers yes
-
-# set to yes if you want all text to be in uppercase
-uppercase no
-
-# number of cpu samples to average
-# set to 1 to disable averaging
-cpu_avg_samples 4
-
-# number of net samples to average
-# set to 1 to disable averaging
-net_avg_samples 2
-
-# Force UTF8? note that UTF8 support required XFT
-override_utf8_locale yes
-
-# Add spaces to keep things from moving about?  This only affects certain objects.
-use_spacer none
-
+gap_x 16
+gap_y 16
+ 
+# stuff after 'TEXT' will be formatted on screen
 TEXT
-SYSTEM ${hr 2}
-${voffset 2}${font OpenLogos:size=20}u${font}   Kernel:  ${alignr}${kernel}
-${font StyleBats:size=20}A${font}   CPU1: ${cpu cpu1}% ${alignr}${cpubar cpu1 8,60}
-${font StyleBats:size=20}A${font}   CPU2: ${cpu cpu2}% ${alignr}${cpubar cpu2 8,60}
-${font StyleBats:size=20}g${font}   RAM: $memperc% ${alignr}${membar 8,60}
-${font StyleBats:size=20}j${font}   SWAP: $swapperc% ${alignr}${swapbar 8,60}
-${font StyleBats:size=20}q${font}   Uptime: ${alignr}${uptime}
-${font StyleBats:size=20}k${font}   Processes: ${alignr}$processes ($running_processes running)
+$color${color orange}${font DejaVu Sans Mono:bold:size=10}SYSTEM ($nodename) ${hr 2}$font$color
+Uptime: ${uptime} ${alignr} Load: ${loadavg}
+TEMP:  ${hwmon 2 temp 1}°C 
+FAN: ${hwmon 1 fan 1}rpm
+CPU:${alignr}$cpu% ${cpubar 9,85} ${cpugraph 9,135 000000 ffffff}
+MEM:${alignr}$memperc% ${membar 9,85} ${memgraph 9,135 000000 ffffff}
+SWAP:${alignr}$swapperc% ${swapbar 9,130} $swapfree/$swapmax
+PROCESSES:  ${top name 1}${alignr} ${top cpu 1}%
+            ${top name 2}${alignr} ${top cpu 2}%
+	    ${top name 3}${alignr} ${top cpu 3}%
 
-Highest CPU $alignr CPU% MEM%
-${hr 1}
-${top name 1}$alignr${top cpu 1}${top mem 1}
-${top name 2}$alignr${top cpu 2}${top mem 2}
-${top name 3}$alignr${top cpu 3}${top mem 3}
-${top name 4}$alignr${top cpu 4}${top mem 4}
-${top name 5}$alignr${top cpu 5}${top mem 5}
-${top name 6}$alignr${top cpu 6}${top mem 6}
+${color orange}${font DejaVu Sans Mono:bold:size=10}POWER ${hr 2}$font$color
+Battery: ${alignr} ${battery_bar 10,140 BAT0} ${battery_percent BAT0}%
+Battery Time: ${battery_time BAT0}
 
-HD ${hr 2}
-${font Pie charts for maps:size=16}7${font}   ${voffset -5}Home:
-${voffset 4}${fs_free /home}/${fs_size /home} ${alignr}${fs_bar 8,60 /home}
+${color orange}${font DejaVu Sans Mono:bold:size=10}WIRELESS (${addr wlan0}) ${hr 2}$font$color
+Down:   ${alignr} ${downspeed wlan0} ${downspeedgraph wlan0 10,140 ff0000 ff0000} ${totaldown wlan0}
+Up:     ${alignr} ${upspeed wlan0} ${upspeedgraph wlan0 10,140 00ff00 00ff00} ${totalup wlan0}
+Signal: ${alignr} ${wireless_bitrate wlan0} ${wireless_link_bar 10,140 wlan0} ${wireless_link_qual wlan0}dBm
 
-NETWORK ${hr 2}
-${if_existing /proc/net/route wlan0}
-${voffset -6}${font PizzaDude Bullets:size=16}O${font}   Up: ${upspeed wlan0} kb/s ${alignr}${upspeedgraph wlan0 8,90}
-${voffset 4}${font PizzaDude Bullets:size=16}U${font}   Down: ${downspeed wlan0} kb/s ${alignr}${downspeedgraph wlan0 8,60}
-${voffset 4}${font PizzaDude Bullets:size=16}N${font}   Upload: ${alignr}${totalup wlan0}
-${voffset 4}${font PizzaDude Bullets:size=16}T${font}   Download: ${alignr}${totaldown wlan0}
-${voffset 4}${font PizzaDude Bullets:size=16}Z${font}   Signal: ${wireless_link_qual wlan0}% ${alignr}${wireless_link_bar 8,60 wlan0}
-${voffset 4}${font PizzaDude Bullets:size=16}a${font}   Local Ip: ${alignr}${addr wlan0}
-${voffset 4}${font PizzaDude Bullets:size=16}b${font}   Public Ip: ${alignr}${execi 1 ~/.conky/scripts/ip.sh}
-${else}${if_existing /proc/net/route eth0}
-${voffset -3}${font PizzaDude Bullets:size=16}O${font}   Up: ${upspeed eth0} kb/s ${alignr}${voffset -6}${upspeedgraph eth0 15,70}
-${voffset 12}${font PizzaDude Bullets:size=16}U${font}   Down: ${downspeed eth0} kb/s ${alignr}${voffset -6}${downspeedgraph eth0 15,70}
-${voffset 12}${font PizzaDude Bullets:size=16}N${font}   Upload: ${alignr}${totalup eth0}
-${voffset 4}${font PizzaDude Bullets:size=16}T${font}   Download: ${alignr}${totaldown eth0}
-${voffset 4}${font PizzaDude Bullets:size=16}a${font}   Local Ip: ${alignr}${addr eth0}
-${voffset 4}${font PizzaDude Bullets:size=16}b${font}   Public Ip: ${alignr}${execi 1 ~/.conky/scripts/ip.sh}
-${endif}${else}${if_existing /proc/net/route eth1}
-${voffset -6}${font PizzaDude Bullets:size=16}O${font}   Up: ${upspeed eth1} kb/s ${alignr}${upspeedgraph eth1 8,60}
-${voffset 4}${font PizzaDude Bullets:size=16}U${font}   Down: ${downspeed eth1} kb/s ${alignr}${downspeedgraph eth1 8,60}
-${voffset 4}${font PizzaDude Bullets:size=16}N${font}   Upload: ${alignr}${totalup eth1}
-${voffset 4}${font PizzaDude Bullets:size=16}T${font}   Download: ${alignr}${totaldown eth1}
-${voffset 4}${font PizzaDude Bullets:size=16}a${font}   Local Ip: ${alignr}${addr eth1}
-${voffset 4}${font PizzaDude Bullets:size=16}b${font}   Public Ip: ${alignr}${execi 1 ~/.conky/scripts/ip.sh}
-${endif}${else}
-${font PizzaDude Bullets:size=16}4${font}   Network Unavailable
-${endif}
-${endif}
-
-
+${color orange}${font DejaVu Sans Mono:bold:size=10}DISK ${hr 2}$font$color
+Root:  ${alignr} ${fs_used_perc /}% ${fs_bar 9,130 /} ${fs_used /}/${fs_size /}
+Disk Read:  ${alignr} ${diskiograph_read 13,140 00ff00 00ff00} ${diskio_read}
+Disk Write: ${alignr} ${diskiograph_write 13,140 ff0000 ff0000} ${diskio_write}
